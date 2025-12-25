@@ -7,7 +7,7 @@ import time
 
 class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
-        __focusFirefoxWindow()
+        focusFirefoxWindow()
         if self.path == "/togglePlayback?" or self.path == "/togglePlayback":
             pyautogui.press("playpause")
 
@@ -42,36 +42,52 @@ class Handler(BaseHTTPRequestHandler):
             contents = file.read()
             self.wfile.write(contents)
 
-def __focusFirefoxWindow():
-    def find_window():
+def focusFirefoxWindow():
+    FIREFOX_PATH = r"C:\Program Files\Mozilla Firefox\firefox.exe"
+
+    def find_firefox_windows():
         result = []
 
         def enum_handler(hwnd, _):
             if win32gui.IsWindowVisible(hwnd):
-                if "Firefox" in win32gui.GetWindowText(hwnd):
+                if win32gui.GetClassName(hwnd) == "MozillaWindowClass":
                     result.append(hwnd)
 
         win32gui.EnumWindows(enum_handler, None)
         return result
 
-    windows = find_window()
+    windows = find_firefox_windows()
 
     if not windows:
-        subprocess.Popen(["C:\\Program Files\\Mozilla Firefox\\firefox.exe"])
-
-        # wait for Firefox window to appear
+        subprocess.Popen([FIREFOX_PATH])
         for _ in range(20):
             time.sleep(0.5)
-            windows = find_window()
+            windows = find_firefox_windows()
             if windows:
                 break
 
     if windows:
         hwnd = windows[0]
-        win32gui.ShowWindow(hwnd, win32con.SW_RESTORE)
-        win32gui.SetForegroundWindow(hwnd)
 
-__focusFirefoxWindow()
+        # Check if Firefox is already focused
+        if win32gui.GetForegroundWindow() == hwnd:
+            # Check if already maximized
+            placement = win32gui.GetWindowPlacement(hwnd)
+            if placement[1] == win32con.SW_SHOWMAXIMIZED:
+                print("Firefox is already focused and maximized")
+                return
+
+        # Restore if minimized
+        win32gui.ShowWindow(hwnd, win32con.SW_RESTORE)
+        # Bring to foreground
+        win32gui.SetForegroundWindow(hwnd)
+        # Maximize the window
+        win32gui.ShowWindow(hwnd, win32con.SW_MAXIMIZE)
+        print(f"Focused and maximized Firefox window: {hwnd}")
+    else:
+        print("No Firefox window found")
+
+focusFirefoxWindow()
 
 server = HTTPServer(("", 8000), Handler)
 server.serve_forever()
