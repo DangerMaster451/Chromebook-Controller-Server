@@ -14,6 +14,20 @@ class Handler(BaseHTTPRequestHandler):
 
         elif self.path == "/hotkey1?" or self.path == "/hotkey1":
             pyautogui.hotkey("alt", "1")
+        elif self.path == "/hotkey2?" or self.path == "/hotkey2":
+            pyautogui.hotkey("alt", "2")
+        elif self.path == "/hotkey3?" or self.path == "/hotkey3":
+            pyautogui.hotkey("alt", "3")
+        elif self.path == "/hotkey4?" or self.path == "/hotkey4":
+            pyautogui.hotkey("alt", "4")
+        elif self.path == "/hotkey5?" or self.path == "/hotkey5":
+            pyautogui.hotkey("alt", "5")
+        elif self.path == "/hotkey6?" or self.path == "/hotkey6":
+            pyautogui.hotkey("alt", "6")
+        elif self.path == "/hotkey7?" or self.path == "/hotkey7":
+            pyautogui.hotkey("alt", "7")
+        elif self.path == "/hotkey8?" or self.path == "/hotkey8":
+            pyautogui.hotkey("alt", "8")
 
 
         self.send_response(200)
