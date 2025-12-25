@@ -1,8 +1,13 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
+import win32gui
+import win32con
 import pyautogui
+import subprocess
+import time
 
 class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
+        __focusFirefoxWindow()
         if self.path == "/togglePlayback?" or self.path == "/togglePlayback":
             pyautogui.press("playpause")
 
@@ -29,7 +34,6 @@ class Handler(BaseHTTPRequestHandler):
         elif self.path == "/hotkey8?" or self.path == "/hotkey8":
             pyautogui.hotkey("alt", "8")
 
-
         self.send_response(200)
         self.send_header("Contest-type", "text/html")
         self.end_headers()
@@ -37,6 +41,37 @@ class Handler(BaseHTTPRequestHandler):
         with open("index.html", "rb") as file:
             contents = file.read()
             self.wfile.write(contents)
+
+def __focusFirefoxWindow():
+    def find_window():
+        result = []
+
+        def enum_handler(hwnd, _):
+            if win32gui.IsWindowVisible(hwnd):
+                if "Firefox" in win32gui.GetWindowText(hwnd):
+                    result.append(hwnd)
+
+        win32gui.EnumWindows(enum_handler, None)
+        return result
+
+    windows = find_window()
+
+    if not windows:
+        subprocess.Popen(["C:\\Program Files\\Mozilla Firefox\\firefox.exe"])
+
+        # wait for Firefox window to appear
+        for _ in range(20):
+            time.sleep(0.5)
+            windows = find_window()
+            if windows:
+                break
+
+    if windows:
+        hwnd = windows[0]
+        win32gui.ShowWindow(hwnd, win32con.SW_RESTORE)
+        win32gui.SetForegroundWindow(hwnd)
+
+__focusFirefoxWindow()
 
 server = HTTPServer(("", 8000), Handler)
 server.serve_forever()
