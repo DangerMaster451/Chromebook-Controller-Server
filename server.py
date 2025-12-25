@@ -13,8 +13,7 @@ class Handler(BaseHTTPRequestHandler):
             pyautogui.hotkey("ctrl", "tab")
 
         elif self.path == "/hotkey1?" or self.path == "/hotkey1":
-            pyautogui.hotkey("ctrl", "k")
-            pyautogui.typewrite("https://youtube.com\n")
+            pyautogui.hotkey("alt", "1")
 
 
         self.send_response(200)
