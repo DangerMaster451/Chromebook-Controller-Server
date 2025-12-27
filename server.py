@@ -68,24 +68,14 @@ def focusFirefoxWindow():
 
     if windows:
         hwnd = windows[0]
-
-        # Check if Firefox is already focused
         if win32gui.GetForegroundWindow() == hwnd:
-            # Check if already maximized
             placement = win32gui.GetWindowPlacement(hwnd)
             if placement[1] == win32con.SW_SHOWMAXIMIZED:
-                print("Firefox is already focused and maximized")
                 return
 
-        # Restore if minimized
         win32gui.ShowWindow(hwnd, win32con.SW_RESTORE)
-        # Bring to foreground
         win32gui.SetForegroundWindow(hwnd)
-        # Maximize the window
         win32gui.ShowWindow(hwnd, win32con.SW_MAXIMIZE)
-        print(f"Focused and maximized Firefox window: {hwnd}")
-    else:
-        print("No Firefox window found")
 
 focusFirefoxWindow()
 
