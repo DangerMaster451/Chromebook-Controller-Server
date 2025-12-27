@@ -1,0 +1,85 @@
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Courier New', Courier, monospace;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #0d1117, #1b1f2a, #0d1117);
+    color: #cdd9e5;
+  }
+
+  .console-container {
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-template-columns: repeat(3, 1fr);
+    justify-content: space-between; /* pushes buttons to bottom */
+    align-items: center;
+    padding: 2rem;
+    
+  }
+
+  .console-container h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #39ff14;
+    text-shadow: 0 0 5px #39ff14;
+  }
+
+  .console-container p {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    color: #cdd9e5;
+  }
+
+  .console-container button {
+    margin: 15px;
+    font-family: inherit;
+    font-size: 1rem;
+    color: #0d1117;
+    background-color: #39ff14;
+    border: none;
+    border-radius: 5px;
+    padding: 0.6rem 1.2rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 0 10px rgba(57, 255, 20, 0.5);
+    width: 150px;
+    height: 75px;
+  }
+
+  .console-container button:hover {
+    background-color: #32e814;
+    box-shadow: 0 0 20px rgba(57, 255, 20, 0.8);
+  }
+
+  .hotkey {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, auto);
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+  .hotkey button {
+    height: 100px;
+    width: 100px;
+    font-family: inherit;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #7d3cff;
+    border: none;
+    border-radius: 5px;
+    padding: 0.6rem 1.2rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 0 30px rgba(125, 60, 255, 0.5);
+}
+
+  .hotkey button:hover {
+    background-color: #4fc3ff;
+    box-shadow: 0 0 20px #4f69ff;
+  }
